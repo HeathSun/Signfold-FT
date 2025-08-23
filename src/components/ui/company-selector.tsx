@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { MagicCard } from "@/components/magicui/magic-card";
-import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+
 import { useTheme } from "next-themes";
 import { useState } from "react";
 

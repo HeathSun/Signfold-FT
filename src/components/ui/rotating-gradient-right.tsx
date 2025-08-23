@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -67,9 +68,11 @@ export default function RotatingGradientRight() {
             <h2 className="text-2xl sm:text-3xl lg:text-5xl playfair-display-italic text-white leading-relaxed">
               Signfold
             </h2>
-            <img 
+            <Image 
               src="https://cslplhzfcfvzsivsgrpc.supabase.co/storage/v1/object/public/img/Signfold.gif" 
               alt="Signfold Logo" 
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-full"
             />
           </div>
