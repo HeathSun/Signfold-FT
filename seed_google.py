@@ -8,8 +8,8 @@ import asyncio
 from playwright.async_api import async_playwright
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-llm = ChatOpenAI(model="gpt-5")
+api_key = os.getenv("OPENAI_API_KEY_0")
+llm = ChatOpenAI(model="gpt-5",api_key = api_key)
 PROFILE_DIR = Path(".\\gprofile").resolve()
 
 # If no executable_path provided, uses Playwright/Patchright's built-in Chromium
@@ -26,8 +26,12 @@ browser_session = BrowserSession(browser_profile=profile)
 # 3) 创建 Agent
 agent = Agent(
     task="""
-    1. go to https://www.linkedin.com/company/aforecapital/. Do not wait.
+    1. go to https://www.linkedin.com/company/composiohq/. Do not wait.
     2. Instantly click follow and show me the result. 
+    3. Go to https://www.youtube.com/@Composio.
+    4. Click follow and then close the page you opened.
+    5. Go to https://discord.com/invite/GjRcuRTM.
+    6. Click follow and then close the page you opened.
     """,
     llm=llm,
     browser_session=browser_session,

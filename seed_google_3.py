@@ -7,6 +7,7 @@ import os
 # Chrome 路径
 
 TASKS = ["""
+
 1. Open a new page in Chrome.
 2. Go to https://www.linkedin.com/company/aforecapital/.
 3. Click follow and then close the page you opened.
@@ -30,7 +31,6 @@ while i<5:
 print(1)
 async def run_agent(idx,task_text: str):
     profile = BrowserProfile(
-        storage_state=Path("storage_state.json"),
         headless=False
     )
     session = BrowserSession(browser_profile=profile)
