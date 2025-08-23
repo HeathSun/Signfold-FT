@@ -2,7 +2,10 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type InteractiveHoverButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+interface InteractiveHoverButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+}
 
 export const InteractiveHoverButton = React.forwardRef<
   HTMLButtonElement,

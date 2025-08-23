@@ -6,8 +6,39 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { CompanySelector } from "@/components/ui/company-selector";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+import { useState } from "react";
 
 export default function RotatingGradientRight() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<string>("");
+
+  const handleFollowAll = async () => {
+    setIsLoading(true);
+    setStatus("Starting follow automation...");
+    
+    try {
+      const response = await fetch('/api/follow-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setStatus("Follow automation started successfully!");
+      } else {
+        setStatus(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      setStatus("Failed to start follow automation");
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <style>
@@ -41,8 +72,8 @@ export default function RotatingGradientRight() {
           <Card className="w-[340px] z-10 rounded-2xl border border-white/10 bg-black/85 shadow-2xl backdrop-blur-xl">
             <CardContent className="p-5">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-sm font-medium">Activate the Signfold Agent</span>
-                <span className="text-xs text-zinc-400">5%</span>
+                <span className="text-sm font-medium text-white">Activate the Signfold Agent</span>
+                <span className="text-xs text-zinc-400"></span>
               </div>
 
               {/* Progress bar */}
@@ -55,9 +86,19 @@ export default function RotatingGradientRight() {
                 Before proceeding, check that you’re signed into your Chrome account.
               </p>
 
-              <InteractiveHoverButton className="mt-4 w-full">
-                Follow all with Signfold
+              <InteractiveHoverButton 
+                className="mt-4 w-full" 
+                onClick={handleFollowAll}
+                disabled={isLoading}
+              >
+                {isLoading ? "Starting..." : "Follow all with Signfold"}
               </InteractiveHoverButton>
+              
+              {status && (
+                <p className="mt-2 text-xs text-zinc-400">
+                  {status}
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
