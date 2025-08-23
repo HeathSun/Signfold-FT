@@ -4,12 +4,14 @@ const { spawn } = require('child_process');
 const path = require('path');
 
 const app = express();
-const PORT = 3001;
+const PORT = 8000;
 
 // 启用 CORS 允许前端访问
 app.use(cors({
-  origin: ['https://signfold.com', 'http://localhost:3000'],
-  credentials: true
+  origin: ['https://signfold.com', 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());

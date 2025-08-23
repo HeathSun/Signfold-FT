@@ -6,21 +6,25 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { CompanySelector } from "@/components/ui/company-selector";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function RotatingGradientRight() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
+  const [mounted, setMounted] = useState(false);
+
+  // 防止 hydration 错误
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleFollowAll = async () => {
     setIsLoading(true);
     setStatus("Starting follow automation...");
     
     try {
-      // 根据环境决定 API 地址
-      const apiUrl = typeof window !== 'undefined' && window.location.hostname === 'localhost'
-        ? '/api/follow-all'  // 本地开发环境
-        : 'http://localhost:3001/api/follow-all';  // 生产环境指向本地后端
+      // 总是使用本地后端，因为 Python 脚本需要在本地运行
+      const apiUrl = 'http://localhost:8000/api/follow-all';
       
       console.log('Calling API:', apiUrl);
       
