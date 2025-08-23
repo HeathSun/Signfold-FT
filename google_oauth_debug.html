@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Google OAuth Debug</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, Arial; max-width: 900px; margin: 40px auto; }
+    pre { background:#111; color:#0f0; padding:12px; overflow:auto; }
+    .row { display:flex; gap:12px; align-items:center; }
+    button { padding:8px 12px; }
+  </style>
+</head>
+<body>
+  <h1>Google OAuth Debug</h1>
+
+  <div class="row">
+    <button id="btn">Sign in with Google</button>
+    <span id="status">Idle</span>
+  </div>
+
+  <h3>ID Token (JWT)</h3>
+  <pre id="jwtBox"></pre>
+
+  <h3>Decoded JSON (header & payload)</h3>
+  <pre id="jsonBox"></pre>
+
+  <h3>Backend Response</h3>
+  <pre id="respBox"></pre>
+
+  <script>
+    const CLIENT_ID = "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com"; // ← 替换
+
+    // 简单的 base64url 解码 -> JSON
+    function b64urlDecode(str) {
+      str = str.replace(/-/g, '+').replace(/_/g, '/');
+      const pad = str.length % 4 ? 4 - (str.length % 4) : 0;
+      return atob(str + '='.repeat(pad));
+    }
+    function decodeJwt(jwt) {
+      const [headerB64, payloadB64] = jwt.split('.'); // 忽略签名部分调试即可
+      const header = JSON.parse(b64urlDecode(headerB64));
+      const payload = JSON.parse(b64urlDecode(payloadB64));
+      return { header, payload };
+    }
+
+    // 初始化 GIS（点击时再 init，避免自动弹窗）
+    function initAndPrompt() {
+      google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse,
+        auto_select: false
+      });
+      google.accounts.id.prompt(); // 弹 One Tap/弹窗
+    }
+
+    async function handleCredentialResponse(response) {
+      const status = document.getElementById('status');
+      const jwtBox = document.getElementById('jwtBox');
+      const jsonBox = document.getElementById('jsonBox');
+      const respBox = document.getElementById('respBox');
+
+      try {
+        status.textContent = "Received credential";
+        const id_token = response?.credential;
+        if (!id_token) {
+          status.textContent = "No credential returned";
+          return;
+        }
+
+        // 展示原始 JWT
+        jwtBox.textContent = id_token;
+
+        // 解析展示 JSON（仅用于调试）
+        const decoded = decodeJwt(id_token);
+        jsonBox.textContent = JSON.stringify(decoded, null, 2);
+
+        // 发送给你的后端
+        status.textContent = "Posting to backend…";
+        const r = await fetch("http://localhost:8000/auth/google", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_token, decoded })
+        });
+        const data = await r.json().catch(() => ({ raw: "non-json response" }));
+        respBox.textContent = JSON.stringify(data, null, 2);
+        status.textContent = "Done";
+      } catch (e) {
+        console.error(e);
+        status.textContent = "Error (see console)";
+      }
+    }
+
+    document.getElementById('btn').addEventListener('click', () => {
+      initAndPrompt();
+    });
+  </script>
+</body>
+</html>
