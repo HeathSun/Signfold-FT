@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Wait for the process to complete
-    return new Promise((resolve) => {
+    return new Promise<NextResponse>((resolve) => {
       pythonProcess.on('close', (code) => {
         if (code === 0) {
           resolve(NextResponse.json({ 
