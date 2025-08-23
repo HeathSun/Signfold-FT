@@ -17,7 +17,12 @@ export default function RotatingGradientRight() {
     setStatus("Starting follow automation...");
     
     try {
-      const response = await fetch('/api/follow-all', {
+      // 根据环境决定 API 地址
+      const apiUrl = process.env.NODE_ENV === 'production' 
+        ? 'http://localhost:3001/api/follow-all'  // 生产环境指向本地后端
+        : '/api/follow-all';  // 开发环境使用相对路径
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
