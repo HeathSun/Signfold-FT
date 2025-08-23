@@ -42,7 +42,7 @@ export default function RotatingGradientRight() {
             <CardContent className="p-5">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm font-medium">Activate the Signfold Agent</span>
-                <span className="text-xs text-zinc-400">99 / 99</span>
+                <span className="text-xs text-zinc-400">5%</span>
               </div>
 
               {/* Progress bar */}
