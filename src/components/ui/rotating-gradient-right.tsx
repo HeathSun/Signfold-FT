@@ -18,9 +18,11 @@ export default function RotatingGradientRight() {
     
     try {
       // 根据环境决定 API 地址
-      const apiUrl = process.env.NODE_ENV === 'production' 
-        ? 'http://localhost:3001/api/follow-all'  // 生产环境指向本地后端
-        : '/api/follow-all';  // 开发环境使用相对路径
+      const apiUrl = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+        ? '/api/follow-all'  // 本地开发环境
+        : 'http://localhost:3001/api/follow-all';  // 生产环境指向本地后端
+      
+      console.log('Calling API:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -29,7 +31,14 @@ export default function RotatingGradientRight() {
         },
       });
       
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log('Response data:', data);
       
       if (data.success) {
         setStatus("Follow automation started successfully!");
