@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'signfold.com',
+        hostname: 'cslplhzfcfvzsivsgrpc.supabase.co',
         port: '',
         pathname: '/**',
       },

@@ -69,7 +69,7 @@ export default function RotatingGradientRight() {
               Signfold
             </h2>
             <img 
-              src="https://signfold.com/Signfold.gif" 
+              src="https://cslplhzfcfvzsivsgrpc.supabase.co/storage/v1/object/public/img/Signfold.gif" 
               alt="Signfold Logo" 
               className="w-8 h-8 rounded-full"
             />
