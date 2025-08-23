@@ -120,8 +120,10 @@ export default function RotatingGradientRight() {
           <p className="text-gray-400 text-sm sm:text-base lg:text-lg">
             With a single sign-in, users can instantly follow your company’s social accounts (X, GitHub, and more) and access your websites without repeated authentication.
           </p>
-          <Button variant="link" className="px-0 text-white">
-            Documentation <ArrowRight />
+          <Button variant="link" className="px-0 text-white" asChild>
+            <a href="https://docs.signfold.com" target="_blank" rel="noopener noreferrer">
+              Documentation <ArrowRight />
+            </a>
           </Button>
           
           {/* Company Selector */}
