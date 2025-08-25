@@ -6,17 +6,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { CompanySelector } from "@/components/ui/company-selector";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function RotatingGradientRight() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>("");
-  const [mounted, setMounted] = useState(false);
-
-  // 防止 hydration 错误
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleFollowAll = async () => {
     setIsLoading(true);
